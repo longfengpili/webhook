@@ -1,0 +1,58 @@
+- id: redeploy-webhook
+  execute-command: /webhook/scripts/redeploy.sh
+  command-working-directory: /webhook
+  response-message: Deployment triggered successfully!
+  response-headers:
+    - name: X-Example-Header
+      value: response it works
+  success-http-response-code: 200
+  incoming-payload-content-type: application/json
+  http-methods: ["POST"]
+  include-command-output-in-response: true
+  include-command-output-in-response-on-error: true
+  pass-arguments-to-command:
+    - source: string
+      name: test
+    - source: payload
+      name: args.json.path
+  pass-environment-to-command:
+    - source: string
+      envname: ENV_VAR
+      name: static-env-value
+    - source: payload
+      envname: PayLoadEnvVar
+      name: envs.json.path
+    - source: header
+      envname: TOKEN
+      name: Token
+    - source: url
+      envname: QUERY
+      name: query
+  pass-file-to-command:
+    - source: payload
+      envname: PAYLOAD_FILE
+      name: file.path
+      base64decode: true
+  trigger-rule:
+    and:
+      - match:
+          type: value
+          value: 421
+          parameter:
+            source: url
+            name: token
+  trigger-rule-mismatch-http-response-code: 400
+  trigger-signature-soft-failures: true
+
+- id: pushplus
+  execute-command: /webhook/scripts/pushplus.sh
+  command-working-directory: /webhook
+  response-message: Deployment triggered successfully!
+  response-headers:
+    - name: X-Example-Header
+      value: response it works
+  success-http-response-code: 200
+  incoming-payload-content-type: application/json
+  include-command-output-in-response: false
+  include-command-output-in-response-on-error: true
+  
