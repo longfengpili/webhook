@@ -2,33 +2,35 @@
 # @Author: longfengpili
 # @Date:   2024-10-22 10:27:20
 # @Last Modified by:   longfengpili
-# @Last Modified time: 2024-10-22 14:13:06
+# @Last Modified time: 2024-10-23 18:14:11
 # @github: https://github.com/longfengpili
 
-from .brequests import BRequests
-from utils.model import Message
+import json
 
-# import logging
-# pplogger = logging.getLogger(__name__)
+from .brequests import BRequests
+from utils.model import Message, OneOf
 
 
 class PushPlus(BRequests):
+    channel = OneOf('wechat', 'webhook', 'cp', 'mail', 'sms')
 
-    def __init__(self, token: str):
+    def __init__(self, token: str, channel: str = 'wechat'):
         self.token = token
-        self.url = 'https://www.pushplus.plus/send'
-        super(PushPlus, self).__init__()
+        self.channel = channel
+        self.url = "https://www.pushplus.plus/send"
 
     def send(self, message: Message):
         method = 'post'
-        print(f"==={method}")
+        headers = {
+            'Content-Type': 'application/json'
+        }
         data = {
             'token': self.token,
             'title': message.title,
             'content': message.content,
             'template': message.template,
-            'channel': message.channel
+            'channel': self.channel
         }
 
-        result = self.request_api(method, self.url, data=data)
+        result = self.request_api(method, self.url, headers=headers, data=json.dumps(data))
         return result

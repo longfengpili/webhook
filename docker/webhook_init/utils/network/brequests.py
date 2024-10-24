@@ -2,7 +2,7 @@
 # @Author: longfengpili
 # @Date:   2024-10-22 10:25:16
 # @Last Modified by:   longfengpili
-# @Last Modified time: 2024-10-22 10:26:44
+# @Last Modified time: 2024-10-22 14:11:26
 # @github: https://github.com/longfengpili
 
 
@@ -32,7 +32,7 @@ class BRequests:
             response = mrequest(url, params, headers=headers, data=data)
             if response.status_code in (200, 204):
                 self.response = response
-                print(response.request.headers)
+                # print(response.request.headers)
                 break
 
             attempt += 1

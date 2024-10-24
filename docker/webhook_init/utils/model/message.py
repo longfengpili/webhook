@@ -2,63 +2,27 @@
 # @Author: longfengpili
 # @Date:   2024-10-22 10:06:03
 # @Last Modified by:   longfengpili
-# @Last Modified time: 2024-10-22 14:17:13
+# @Last Modified time: 2024-10-24 10:14:08
 # @github: https://github.com/longfengpili
 
 
 import time
-from abc import ABC, abstractmethod
-
-
-class Validator(ABC):
-    """验证器抽象基类"""
-    def __set_name__(self, owner, name):
-        self.private_name = '_' + name
-
-    def __get__(self, instance, owner=None):
-        return getattr(instance, self.private_name)
-
-    def __set__(self, instance, value):
-        self.validate(value)
-        setattr(instance, self.private_name, value)
-
-    @abstractmethod
-    def validate(self, value):
-        pass
-
-
-class OneOf(Validator):
-    """字符串单选验证器"""
-    def __init__(self, *options):
-        self.options = set(options)
-
-    def validate(self, value):
-        if value not in self.options:
-            raise ValueError(f'Expected {value!r} to be one of {self.options!r}')
-
-
-class Number(Validator):
-    """数值类型验证器"""
-    def validate(self, value):
-        if not isinstance(value, (int, float)):
-            raise TypeError(f'Expected {value!r} to be an int or float')
+from .validator import OneOf, Number
 
 
 class Message:
-    channel = OneOf('wechat', 'webhook', 'cp', 'mail', 'sms')
     template = OneOf('html', 'txt', 'json')
 
-    def __init__(self, title: str, content: str, channel: str = 'wechat', template: str = 'html', **kwargs):
+    def __init__(self, title: str, content: any, template: str = 'html', **kwargs):
         self.title = title
         self.content = content
-        self.channel = channel
         self.template = template
         self.kwargs = kwargs
 
     def __repr__(self):
         content = self.content
         content = content if len(content) <= 20 else content[:20]
-        return f"Message({self.title}:{content})::{self.channel}"
+        return f"Message({self.title}:{content})::{self.template}"
 
     def __getattr__(self, item):
         '''

@@ -51,6 +51,13 @@
   response-headers:
     - name: X-Example-Header
       value: response it works
+  pass-environment-to-command:
+    - source: payload
+      envname: PUSHPLUS_TOKEN
+      name: token
+    - source: payload
+      envname: MESSAGE
+      name: message
   success-http-response-code: 200
   incoming-payload-content-type: application/json
   include-command-output-in-response: false
