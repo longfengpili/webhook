@@ -55,9 +55,11 @@
     - source: payload
       envname: PUSHPLUS_TOKEN
       name: token
+    # - source: entire-payload
+    #   envname: full_payload
     - source: payload
-      envname: MESSAGE
-      name: message
+      envname: entity
+      name: entity
   success-http-response-code: 200
   incoming-payload-content-type: application/json
   include-command-output-in-response: false
