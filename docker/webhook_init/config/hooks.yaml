@@ -52,11 +52,15 @@
     - name: X-Example-Header
       value: response it works
   pass-environment-to-command:
+    - source: entire-payload
+      envname: full_payload
+    - source: entire-headers
+      envname: full_headers
+    - source: entire-query
+      envname: full_query
     - source: payload
       envname: PUSHPLUS_TOKEN
       name: token
-    # - source: entire-payload
-    #   envname: full_payload
     - source: payload
       envname: entity
       name: entity
