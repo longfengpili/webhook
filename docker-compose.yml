@@ -3,6 +3,7 @@ services:
     build: 
       context: ./docker
       dockerfile: Dockerfile
+    image: mywebhook:20241024
     environment:
       - PYTHONPATH=/webhook_init
     container_name: webhook
