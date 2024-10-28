@@ -13,5 +13,4 @@ services:
       - 9000:9000
     volumes:
       - ./volumes:/webhook
-      - ./utils:/webhook_init/utils
 
