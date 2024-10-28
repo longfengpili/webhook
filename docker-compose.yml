@@ -3,9 +3,10 @@ services:
     build: 
       context: ./docker
       dockerfile: Dockerfile
-    image: mywebhook:20241024
+    image: mywebhook:20241028
     environment:
       - PYTHONPATH=/webhook_init
+      - PUSHPLUS_TOKEN=${PUSHPLUS_TOKEN:-token}
     container_name: webhook
     command: -verbose -hooks=/webhook/config/hooks.yaml -hotreload
     ports:

@@ -59,11 +59,22 @@
     - source: entire-query
       envname: full_query
     - source: payload
-      envname: PUSHPLUS_TOKEN
-      name: token
-    - source: payload
       envname: entity
       name: entity
+  trigger-rule:
+    and:
+      - match:
+          type: value
+          value: openmetadata@1028
+          parameter:
+            source: url
+            name: token
+      - match:
+          type: value
+          value: openmetadata
+          parameter:
+            source: url
+            name: source
   success-http-response-code: 200
   incoming-payload-content-type: application/json
   include-command-output-in-response: false
