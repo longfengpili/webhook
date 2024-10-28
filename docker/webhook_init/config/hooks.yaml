@@ -51,6 +51,11 @@
   response-headers:
     - name: X-Example-Header
       value: response it works
+  success-http-response-code: 200
+  incoming-payload-content-type: application/json
+  http-methods: ["POST"]
+  include-command-output-in-response: false
+  include-command-output-in-response-on-error: true
   pass-environment-to-command:
     - source: entire-payload
       envname: full_payload
@@ -75,8 +80,5 @@
           parameter:
             source: url
             name: source
-  success-http-response-code: 200
-  incoming-payload-content-type: application/json
-  include-command-output-in-response: false
-  include-command-output-in-response-on-error: true
-  
+  trigger-rule-mismatch-http-response-code: 400
+  trigger-signature-soft-failures: true
